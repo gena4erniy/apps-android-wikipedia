@@ -39,7 +39,7 @@ android {
         targetSdk 34
         versionCode 50484
         testApplicationId 'org.wikipedia.test'
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.kaspersky.kaspresso.runner.KaspressoRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
 
         vectorDrawables.useSupportLibrary = true
@@ -54,6 +54,10 @@ android {
         def TEST_LOGIN_PASSWORD = System.getenv('TEST_LOGIN_PASSWORD')
         buildConfigField "String", "TEST_LOGIN_USERNAME", TEST_LOGIN_USERNAME != null ? "\"${TEST_LOGIN_USERNAME}\"" : '"Foo"'
         buildConfigField "String", "TEST_LOGIN_PASSWORD", TEST_LOGIN_PASSWORD != null ? "\"${TEST_LOGIN_PASSWORD}\"" : '"Bar"'
+
+        testOptions {
+            execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        }
     }
 
     testOptions {
@@ -263,14 +267,12 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation "androidx.room:room-testing:$roomVersion"
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
     androidTestUtil 'androidx.test:orchestrator:1.4.2'
+
+    androidTestImplementation 'com.kaspersky.android-components:kaspresso:1.5.4'
 }
 
 private setSigningConfigKey(config, Properties props) {
